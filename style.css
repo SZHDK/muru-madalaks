@@ -283,19 +283,46 @@ input:focus {
 /* Utility */
 .hidden { display: none; }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Responsive Design - Ülimalt kindel mobiilivaade */
+@media (max-width: 1024px) {
     body {
         flex-direction: column !important;
+        display: block !important; /* Muudame flexi plokiks, et vältida külgmist surumist */
+        overflow-x: hidden !important;
     }
 
     .sidebar {
         width: 100% !important;
+        min-width: 100% !important;
         height: auto !important;
+        padding: 20px !important;
         border-right: none !important;
-        border-bottom: 1px solid var(--border);
-        padding: 16px !important;
+        border-bottom: 1px solid var(--border) !important;
+        position: relative !important;
     }
+
+    .main-content {
+        width: 100% !important;
+        padding: 15px !important;
+        overflow-x: hidden !important;
+    }
+
+    .invoice-editor {
+        display: block !important; /* Üksteise alla panek */
+        width: 100% !important;
+    }
+
+    .editor-pane, .preview-pane {
+        width: 100% !important;
+        margin-bottom: 30px !important;
+    }
+
+    .preview-pane {
+        position: static !important;
+        box-shadow: none !important;
+        border: 1px solid var(--border) !important;
+    }
+}
 
     .logo {
         margin-bottom: 16px;
