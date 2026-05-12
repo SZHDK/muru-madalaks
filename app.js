@@ -211,42 +211,30 @@ function renderDashboard() {
         return;
     }
 
-    let html = `
-        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-            <thead>
-                <tr style="text-align: left; border-bottom: 1px solid var(--border); color: var(--text-muted); font-size: 13px;">
-                    <th style="padding: 12px 8px;">ID</th>
-                    <th style="padding: 12px 8px;">KLIENT</th>
-                    <th style="padding: 12px 8px;">KUUPÄEV</th>
-                    <th style="padding: 12px 8px;">SUMMA</th>
-                    <th style="padding: 12px 8px; text-align: right;">TEGEVUSED</th>
-                </tr>
-            </thead>
-            <tbody>
-    `;
-
+    let html = '';
     invoices.forEach(inv => {
         html += `
-            <tr style="border-bottom: 1px solid var(--border);">
-                <td style="padding: 16px 8px; font-weight: 600;">${inv.id}</td>
-                <td style="padding: 16px 8px;">${inv.client}</td>
-                <td style="padding: 16px 8px;">${inv.date}</td>
-                <td style="padding: 16px 8px; font-weight: 700;">${inv.total.toFixed(2)}€</td>
-                <td style="padding: 16px 8px; text-align: right;">
-                    <div style="display: flex; gap: 5px; justify-content: flex-end;">
-                        <button class="btn btn-primary" style="padding: 6px 10px; font-size: 12px;" onclick="downloadInvoiceAsImage('${inv.id}')">
+            <div class="invoice-item" style="display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border);">
+                <div style="flex: 1;">
+                    <p style="font-weight: 700; color: var(--text-main);">${inv.id}</p>
+                    <p style="font-size: 13px; color: var(--text-muted);">${inv.client}</p>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">${inv.date}</p>
+                </div>
+                <div style="text-align: right; min-width: 120px;">
+                    <p style="font-weight: 800; font-size: 16px; margin-bottom: 8px;">${inv.total.toFixed(2)}€</p>
+                    <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                        <button class="btn btn-primary" style="padding: 6px 12px; font-size: 13px; display: flex; align-items: center; gap: 4px;" onclick="downloadInvoiceAsImage('${inv.id}')">
                             <ion-icon name="image-outline"></ion-icon> Pilt
                         </button>
-                        <button class="btn" style="background: #fef2f2; color: #ef4444; padding: 6px 10px;" onclick="deleteInvoice('${inv.id}')">
+                        <button class="btn" style="background: #fef2f2; color: #ef4444; padding: 6px 12px; display: flex; align-items: center;" onclick="deleteInvoice('${inv.id}')">
                             <ion-icon name="trash-outline"></ion-icon>
                         </button>
                     </div>
-                </td>
-            </tr>
+                </div>
+            </div>
         `;
     });
 
-    html += '</tbody></table>';
     list.innerHTML = html;
 }
 
