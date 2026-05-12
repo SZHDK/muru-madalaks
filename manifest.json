@@ -1,0 +1,16 @@
+{
+  "name": "SZH Invoices",
+  "short_name": "Muru Madalaks",
+  "description": "Invoice Maker",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#f2f2f7",
+  "theme_color": "#007aff",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/1043/1043431.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muru Madalaks | Arve</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; margin-bottom: 40px;">
+            <img src="logo.png" alt="Muru Madalaks" style="height: 120px; width: auto; margin-bottom: 15px;">
+             <h2 style="font-size: 18px; font-weight: 800; color: var(--primary); letter-spacing: 1px; margin: 0;">MURU MADALAKS</h2>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active" onclick="switchTab('dashboard', this)">
+                    <ion-icon name="grid-outline"></ion-icon> Ülevaade
+                </a></li>
+                <li><a href="#" class="nav-link" onclick="switchTab('create', this)">
+                    <ion-icon name="add-circle-outline"></ion-icon> Uus arve
+                </a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- Dashboard Tab -->
+        <div id="tab-dashboard" class="tab-content">
+            <div class="dashboard-header">
+                <h2>Ülevaade</h2>
+                <button class="btn btn-primary" onclick="switchTab('create', document.querySelectorAll('.nav-link')[1])">+ Loo uus arve</button>
+            </div>
+            
+            <div class="stats-grid" style="margin-top: 24px;">
+                <div class="stat-card">
+                    <p class="stat-label">Kogutulu</p>
+                    <p class="stat-value" id="stat-revenue">0.00€</p>
+                </div>
+                <div class="stat-card">
+                    <p class="stat-label">Tasumata</p>
+                    <p class="stat-value" id="stat-outstanding">0.00€</p>
+                </div>
+                <div class="stat-card">
+                    <p class="stat-label">Saadetud arved</p>
+                    <p class="stat-value" id="stat-count">0</p>
+                </div>
+            </div>
+
+            <div class="form-section" style="margin-top: 32px;">
+                <p class="form-title">Viimased arved</p>
+                <div id="invoice-list-container">
+                    <p style="color: var(--text-muted); text-align: center; padding: 40px;">Arveid ei leitud. Alusta esimese loomisest!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Invoice Tab -->
+        <div id="tab-create" class="tab-content hidden">
+            <div class="dashboard-header">
+                <h2>Uus arve</h2>
+            </div>
+
+            <div class="invoice-editor" style="margin-top: 24px;">
+                <!-- Editor Left -->
+                <div class="editor-pane">
+                    <div class="form-section">
+                        <p class="form-title"><ion-icon name="wallet-outline"></ion-icon> Sinu makseandmed</p>
+                        <div class="input-grid">
+                            <div>
+                                <label>Saaja nimi</label>
+                                <input type="text" id="inp-my-name" placeholder="Muru Madalaks OÜ" oninput="updatePreview()">
+                            </div>
+                            <div>
+                                <label>IBAN (Arvelduskonto)</label>
+                                <input type="text" id="inp-my-iban" placeholder="EE00 0000 0000 0000" oninput="updatePreview()">
+                            </div>
+                            <div>
+                                <label>Arve number</label>
+                                <input type="number" id="inp-next-no" value="1" oninput="updatePreview()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <p class="form-title"><ion-icon name="person-outline"></ion-icon> Kliendi andmed</p>
+                        <div class="input-grid">
+                            <div>
+                                <label>Kliendi nimi</label>
+                                <input type="text" id="inp-client-name" placeholder="Ees- ja perekonnanimi" oninput="updatePreview()">
+                            </div>
+                            <div>
+                                <label>Kliendi e-mail</label>
+                                <input type="email" id="inp-client-email" placeholder="klient@e-mail.ee" oninput="updatePreview()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <p class="form-title"><ion-icon name="list-outline"></ion-icon> Tehtud tööd</p>
+                        <div id="items-list">
+                            <div class="item-row" style="grid-template-columns: 2fr 1fr 1fr 1fr 40px;">
+                                <input type="text" placeholder="Kirjeldus" class="item-desc" oninput="updatePreview()">
+                                <input type="text" placeholder="Aadress" class="item-address" oninput="updatePreview()">
+                                <input type="text" placeholder="PP.KK.AAAA" class="item-date" oninput="updatePreview()">
+                                <input type="number" placeholder="Hind" class="item-price" oninput="updatePreview()">
+                                <button class="btn" style="background: transparent; color: #ef4444;" onclick="removeItem(this)"><ion-icon name="trash-outline"></ion-icon></button>
+                            </div>
+                        </div>
+                        <button class="btn" style="background: var(--bg); color: var(--primary); margin-top: 10px;" onclick="addNewItem()">+ Lisa rida</button>
+                    </div>
+
+                    <button class="btn btn-primary" style="padding: 16px; font-size: 16px;" onclick="saveInvoice()">Salvesta arve</button>
+                </div>
+
+                <!-- Preview Right -->
+                <div class="preview-pane" id="invoice-preview">
+                    <div class="preview-header">
+                        <div>
+                            <h3 id="pre-company">MURU MADALAKS</h3>
+                            <p style="font-size: 12px; color: var(--text-muted);">Arve nr <span id="pre-inv-id">0000</span></p>
+                        </div>
+                        <div style="text-align: right;">
+                            <p id="pre-date">12. mai 2026</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 10px;">
+                        <p style="font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Saaja</p>
+                        <h4 id="pre-client-name" style="margin-top: 4px;">Kliendi nimi</h4>
+                        <p id="pre-client-email" style="font-size: 14px; color: var(--text-muted);">klient@e-mail.ee</p>
+                    </div>
+
+                    <table class="preview-table">
+                        <thead>
+                            <tr>
+                                <th>KIRJELDUS</th>
+                                <th>AADRESS</th>
+                                <th>KUUPÄEV</th>
+                                <th style="text-align: right;">HIND</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pre-items-body">
+                            <!-- Items go here -->
+                        </tbody>
+                    </table>
+
+                    <div class="preview-total">
+                        <span>Kokku tasuda</span>
+                        <span id="pre-total">0.00€</span>
+                    </div>
+
+                    <!-- Payment Info Block -->
+                    <div style="margin-top: 30px; padding: 15px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+                        <p style="font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 10px;">Makseinfo</p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 14px;">
+                            <div>
+                                <p style="color: #64748b;">Saaja:</p>
+                                <p id="pre-my-name" style="font-weight: 600;">Muru Madalaks</p>
+                            </div>
+                            <div>
+                                <p style="color: #64748b;">IBAN:</p>
+                                <p id="pre-my-iban" style="font-weight: 600;">EE00...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 40px; font-size: 12px; color: var(--text-muted); text-align: center;">
+                        Täname koostöö eest!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
