@@ -33,8 +33,7 @@ body {
     background-color: var(--bg);
     color: var(--text-main);
     display: flex;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh; /* Muudetud: lubab lehel pikemaks minna */
 }
 
 /* Layout */
@@ -287,16 +286,15 @@ input:focus {
 /* Responsive Design */
 @media (max-width: 768px) {
     body {
-        flex-direction: column;
-        overflow-y: auto;
+        flex-direction: column !important;
     }
 
     .sidebar {
-        width: 100%;
-        height: auto;
-        border-right: none;
+        width: 100% !important;
+        height: auto !important;
+        border-right: none !important;
         border-bottom: 1px solid var(--border);
-        padding: 16px;
+        padding: 16px !important;
     }
 
     .logo {
