@@ -370,6 +370,19 @@ input:focus {
     .stats-grid {
         grid-template-columns: 1fr !important;
     }
+
+    .invoice-item {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+    }
+
+    .invoice-item > div:last-child {
+        width: 100% !important;
+        text-align: left !important;
+        border-top: 1px solid var(--border);
+        padding-top: 12px;
+    }
 }
 
 /* ==========================================
