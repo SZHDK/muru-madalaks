@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muru Madalaks | Arve</title>
+    <title>Muru Madalaks | Arved</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -46,7 +47,7 @@
                     <p class="stat-value" id="stat-revenue">0.00€</p>
                 </div>
                 <div class="stat-card">
-                    <p class="stat-label">Tasumata</p>
+                    <p class="stat-label">Arvete Summad kokku</p>
                     <p class="stat-value" id="stat-outstanding">0.00€</p>
                 </div>
                 <div class="stat-card">
@@ -118,7 +119,7 @@
                         <button class="btn" style="background: var(--bg); color: var(--primary); margin-top: 10px;" onclick="addNewItem()">+ Lisa rida</button>
                     </div>
 
-                    <button class="btn btn-primary" style="padding: 16px; font-size: 16px;" onclick="saveInvoice()">Salvesta arve</button>
+                    <button class="btn btn-primary" style="padding: 16px; font-size: 16px;" onclick="saveInvoice()">Salvesta Arve</button>
                 </div>
 
                 <!-- Preview Right -->
