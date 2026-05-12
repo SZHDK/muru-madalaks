@@ -280,138 +280,93 @@ input:focus {
     font-weight: 700;
 }
 
-/* Utility */
-.hidden { display: none; }
-
-/* Responsive Design - Ülimalt kindel mobiilivaade */
+/* ==========================================
+   RESPONSIVE DESIGN (Mobiil ja Tahvel)
+   ========================================== */
 @media (max-width: 1024px) {
     body {
         flex-direction: column !important;
-        display: block !important; /* Muudame flexi plokiks, et vältida külgmist surumist */
-        overflow-x: hidden !important;
+        height: auto !important;
+        overflow-y: auto !important;
     }
 
     .sidebar {
         width: 100% !important;
-        min-width: 100% !important;
-        height: auto !important;
         padding: 20px !important;
         border-right: none !important;
-        border-bottom: 1px solid var(--border) !important;
-        position: relative !important;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+        margin-bottom: 15px !important;
+    }
+
+    .logo img {
+        height: 80px !important;
+    }
+
+    .nav-links {
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 20px !important;
     }
 
     .main-content {
-        width: 100% !important;
         padding: 15px !important;
-        overflow-x: hidden !important;
+        width: 100% !important;
     }
 
     .invoice-editor {
-        display: block !important; /* Üksteise alla panek */
-        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: 1fr !important;
     }
 
     .editor-pane, .preview-pane {
         width: 100% !important;
-        margin-bottom: 30px !important;
+    }
+
+    .input-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .item-row {
+        grid-template-columns: 1fr !important;
+        border: 1px solid var(--border);
+        padding: 15px !important;
+        border-radius: 8px;
+        background: rgba(0,0,0,0.02);
     }
 
     .preview-pane {
         position: static !important;
-        box-shadow: none !important;
-        border: 1px solid var(--border) !important;
-    }
-}
-
-    .logo {
-        margin-bottom: 16px;
+        padding: 15px !important;
+        margin-top: 20px;
     }
     
-    .logo img {
-        height: 60px !important; /* Smaller logo on mobile */
-    }
-
-    .nav-links {
-        flex-direction: row;
-        justify-content: center;
-    }
-
-    .main-content {
-        padding: 16px;
-    }
-
-    .invoice-editor {
-        grid-template-columns: 1fr; /* Stack editor and preview */
-        gap: 20px;
-    }
-
-    .preview-pane {
-        width: 100% !important;
-        position: static;
-        min-height: auto;
-        padding: 20px;
-    }
-
-    .input-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .item-row {
-        grid-template-columns: 1fr !important; /* Each field on its own line */
-        gap: 8px;
-        background: var(--bg);
-        padding: 12px;
-        border-radius: 8px;
-        position: relative;
-    }
-    
-    .item-row .btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
-
     .stats-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Print Styles */
-@media print {
-    @page { 
-        size: auto; 
-        margin: 0mm; 
-    }
-    
-    body {
-        background: white !important;
-        padding: 15mm !important;
-    }
-    .sidebar, .main-content > *:not(.tab-content), .editor-pane, .btn, .nav-links, .dashboard-header, .stats-grid, .form-section {
-        display: none !important;
-    }
-    .main-content {
-        padding: 0 !important;
-        margin: 0 !important;
-        display: block !important;
-    }
-    .tab-content {
-        display: none !important;
-    }
-    .tab-content.print-view {
-        display: block !important;
-    }
-    .invoice-editor {
-        display: block !important;
         grid-template-columns: 1fr !important;
     }
+}
+
+/* ==========================================
+   PRINT STYLES (Trükkimine)
+   ========================================== */
+@media print {
+    @page { size: auto; margin: 10mm; }
+    body { background: white !important; padding: 0 !important; }
+    .sidebar, .btn, .nav-links, .dashboard-header, .stats-grid, .form-section:not(.print-view) {
+        display: none !important;
+    }
+    .main-content { padding: 0 !important; margin: 0 !important; display: block !important; }
+    .tab-content { display: none !important; }
+    .tab-content.print-view, #tab-create { display: block !important; }
+    .editor-pane { display: none !important; }
     .preview-pane {
         position: static !important;
         width: 100% !important;
         box-shadow: none !important;
         border: none !important;
         padding: 0 !important;
-        margin: 0 !important;
     }
 }
