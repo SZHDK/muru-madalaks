@@ -233,9 +233,14 @@ function renderDashboard() {
                 <td style="padding: 16px 8px;">${inv.date}</td>
                 <td style="padding: 16px 8px; font-weight: 700;">${inv.total.toFixed(2)}€</td>
                 <td style="padding: 16px 8px; text-align: right;">
-                    <button class="btn" style="background: #ecfdf5; color: #059669; padding: 6px 12px;" onclick="emailInvoice('${inv.id}')">E-post</button>
-                    <button class="btn" style="background: var(--bg); color: var(--primary); padding: 6px 12px; margin-left: 8px;" onclick="printInvoice('${inv.id}')">Prindi</button>
-                    <button class="btn" style="background: #fef2f2; color: #ef4444; padding: 6px 12px; margin-left: 8px;" onclick="deleteInvoice('${inv.id}')">Kustuta</button>
+                    <div style="display: flex; gap: 5px; justify-content: flex-end;">
+                        <button class="btn btn-primary" style="padding: 6px 10px; font-size: 12px;" onclick="downloadInvoiceAsImage('${inv.id}')">
+                            <ion-icon name="image-outline"></ion-icon> Pilt
+                        </button>
+                        <button class="btn" style="background: #fef2f2; color: #ef4444; padding: 6px 10px;" onclick="deleteInvoice('${inv.id}')">
+                            <ion-icon name="trash-outline"></ion-icon>
+                        </button>
+                    </div>
                 </td>
             </tr>
         `;
@@ -253,20 +258,51 @@ function deleteInvoice(id) {
     }
 }
 
-function printInvoice(id) {
+// Download Invoice as Image
+function downloadInvoiceAsImage(id) {
     const inv = invoices.find(i => i.id === id);
     if (!inv) return;
 
-    // Populate preview with this invoice's data
-    document.getElementById('pre-client-name').textContent = inv.client;
-    document.getElementById('pre-client-email').textContent = inv.email || 'N/A';
-    document.getElementById('pre-my-name').textContent = inv.myName || 'Muru Madalaks';
-    document.getElementById('pre-my-iban').textContent = inv.myIban || 'EE00...';
-    document.getElementById('pre-inv-id').textContent = inv.id.split('-')[1];
-    document.getElementById('pre-date').textContent = inv.date;
+    // Switch to create tab to ensure preview is in DOM
+    const createTab = document.getElementById('tab-create');
+    const wasHidden = createTab.classList.contains('hidden');
+    createTab.classList.remove('hidden');
     
+    populatePreview(inv);
+
+    const preview = document.getElementById('invoice-preview');
+    
+    // Use html2canvas to capture
+    setTimeout(() => {
+        html2canvas(preview, {
+            scale: 2,
+            backgroundColor: '#ffffff',
+            useCORS: true
+        }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = `arve-${inv.id}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            
+            // Restore tab state
+            if (wasHidden) createTab.classList.add('hidden');
+            switchTab('dashboard', document.querySelectorAll('.nav-link')[0]);
+        });
+    }, 500);
+}
+
+function populatePreview(inv) {
+    document.getElementById('pre-client-name').textContent = inv.client;
+    document.getElementById('pre-client-email').textContent = inv.email || '-';
+    document.getElementById('pre-my-name').textContent = inv.myName || 'Muru Madalaks';
+    document.getElementById('pre-my-iban').textContent = inv.myIban || '-';
+    document.getElementById('pre-inv-id').textContent = inv.id.replace('INV-', '');
+    document.getElementById('pre-date').textContent = inv.date;
+    document.getElementById('pre-total').textContent = `${inv.total.toFixed(2)}€`;
+
     const tbody = document.getElementById('pre-items-body');
     tbody.innerHTML = '';
+
     if (inv.items) {
         inv.items.forEach(item => {
             const tr = document.createElement('tr');
@@ -282,32 +318,6 @@ function printInvoice(id) {
             tbody.appendChild(tr);
         });
     }
-    document.getElementById('pre-total').textContent = `${inv.total.toFixed(2)}€`;
-
-    const wasHidden = createTab.classList.contains('hidden');
-    
-    createTab.classList.add('print-view');
-    createTab.classList.remove('hidden');
-    
-    window.print();
-    
-    // Restore
-    createTab.classList.remove('print-view');
-    if (wasHidden) {
-        createTab.classList.add('hidden');
-    }
-}
-
-// Email Logic
-function emailInvoice(id) {
-    const inv = invoices.find(i => i.id === id);
-    if (!inv) return;
-
-    const subject = `Arve ${inv.id} - Muru Madalaks`;
-    const body = `Tere ${inv.client}!\n\nLisasime teile arve summas ${inv.total.toFixed(2)}€.\n\nKuupäev: ${inv.date}\n\nKõike head,\nMuru Madalaks`;
-    
-    const mailtoUrl = `mailto:${inv.email || ''}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailtoUrl;
 }
 
 // Init
