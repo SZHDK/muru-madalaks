@@ -284,8 +284,6 @@ function printInvoice(id) {
     }
     document.getElementById('pre-total').textContent = `${inv.total.toFixed(2)}€`;
 
-    // Set print view and print
-    const createTab = document.getElementById('tab-create');
     const wasHidden = createTab.classList.contains('hidden');
     
     createTab.classList.add('print-view');
