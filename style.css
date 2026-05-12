@@ -129,7 +129,30 @@ body {
     font-weight: 700;
 }
 
-/* Invoice Creation Layout */
+/* Invoice List Items */
+.invoice-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+}
+
+.invoice-item:last-child {
+    border-bottom: none;
+}
+
+.invoice-item:hover {
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.invoice-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
 .invoice-editor {
     display: grid;
     grid-template-columns: 1fr 500px; /* Tegin selle 100px laiemaks */
